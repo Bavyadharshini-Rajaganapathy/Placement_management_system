@@ -22,8 +22,8 @@ const LoginPage = ({ setUserType, setIsLoggedIn }) => {
       <h1>Login</h1>
       <select value={loginType} onChange={(e) => setLoginType(e.target.value)}>
         <option value="">Select Login Type</option>
-        <option value="student">Student</option>
-        <option value="staff">Staff</option>
+        <option value="Student">Student</option>
+        <option value="Staff">Staff</option>
       </select>
       <input
         type="email"
