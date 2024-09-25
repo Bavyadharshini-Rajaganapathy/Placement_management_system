@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import MainSection from './MainSection';
 import { Routes, Route } from 'react-router-dom';
 import LoginPage from '../Login/LoginPage';
+import StudentDetails from '../Student/StudentDetails';
+import PlacedStudents from '../Placement/PlacedStudents';
+import Companies from '../Companies/Companies';
 
-const HomePage = () => {
-  const [userType, setUserType] = useState(''); // Track the type of user
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Track login status
-
+const HomePage = ({ userType, isLoggedIn }) => {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Pass userType and isLoggedIn to the Navbar */}
@@ -19,11 +19,13 @@ const HomePage = () => {
         {/* Home page */}
         <Route path="/" element={<MainSection />} />
         
-        {/* Login page - Pass setIsLoggedIn and setUserType as props */}
-        <Route 
-          path="/login" 
-          element={<LoginPage setIsLoggedIn={setIsLoggedIn} setUserType={setUserType} />} 
-        />
+        {/* Login page */}
+        <Route path="/login" element={<LoginPage />} />
+
+        {/* Protected Routes */}
+        <Route path="/student-details" element={isLoggedIn ? <StudentDetails /> : <MainSection />} />
+        <Route path="/placed-students" element={isLoggedIn ? <PlacedStudents /> : <MainSection />} />
+        <Route path="/companies" element={isLoggedIn ? <Companies /> : <MainSection />} />
       </Routes>
 
       {/* Footer */}

@@ -60,7 +60,7 @@ const LoginPage = ({ setUserType, setIsLoggedIn }) => {
           </div>
         </div>
 
-        <div className="flex justify-center mt-12"> {/* Flex container to align button to the right */}
+        <div className="flex justify-center mt-12">
           <button
             onClick={handleLogin}
             className="w-1/3 bg-white mr-4 text-black py-3 rounded-lg text-xl font-semibold hover:bg-blue-600 hover:text-white transition duration-300 hover:shadow-lg transform hover:scale-105"
