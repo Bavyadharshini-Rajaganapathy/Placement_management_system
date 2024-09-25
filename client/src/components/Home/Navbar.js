@@ -5,7 +5,6 @@ const Navbar = ({ userType, isLoggedIn }) => {
   const navigate = useNavigate();
 
   const handleLoginClick = () => {
-    // Redirect to the login page instead of setting the login state directly
     navigate('/login');
   };
 
@@ -27,9 +26,9 @@ const Navbar = ({ userType, isLoggedIn }) => {
     } else {
       return (
         <>
-          <button className="hover:text-gray-200 text-xl md:text-1xl lg:text-2xl">Student Details</button>
-          <button className="hover:text-gray-200 text-xl md:text-1xl lg:text-2xl">Placed Students</button>
-          <button className="hover:text-gray-200 text-xl md:text-1xl lg:text-2xl">Companies</button>
+          <button onClick={() => navigate('/student-details')} className="hover:text-gray-200 text-xl md:text-1xl lg:text-2xl">Student Details</button>
+          <button onClick={() => navigate('/placed-students')} className="hover:text-gray-200 text-xl md:text-1xl lg:text-2xl">Placed Students</button>
+          <button onClick={() => navigate('/companies')} className="hover:text-gray-200 text-xl md:text-1xl lg:text-2xl">Companies</button>
         </>
       );
     }
@@ -43,7 +42,7 @@ const Navbar = ({ userType, isLoggedIn }) => {
           <button onClick={handleLoginClick} className="hover:text-gray-200 text-xl md:text-1xl lg:text-2xl">Sign in</button>
         ) : (
           <button className="hover:text-gray-200 text-xl md:text-1xl lg:text-2xl">
-            {userType === 'student' ? 'Student' : 'Staff'}
+            {userType === 'student' ? 'Student Profile' : 'Staff Profile'}
           </button>
         )}
       </div>
