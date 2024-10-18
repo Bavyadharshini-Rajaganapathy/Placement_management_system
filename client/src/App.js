@@ -11,7 +11,7 @@ const App = () => {
     <Router>
       <Routes>
         <Route
-          path="/"
+          path="*"
           element={<HomePage isLoggedIn={isLoggedIn} userType={userType} />}
         />
         <Route
