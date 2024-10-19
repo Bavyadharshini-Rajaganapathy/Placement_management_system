@@ -4,9 +4,9 @@ import Footer from './Footer';
 import MainSection from './MainSection';
 import { Routes, Route } from 'react-router-dom';
 import LoginPage from '../Login/LoginPage';
-import StudentDetails from '../Student/StudentDetails';
-import PlacedStudents from '../Placement/PlacedStudents';
-import Companies from '../Companies/Companies';
+import TopCompanies from '../TopCompanies/TopCompanies';
+import Explore from '../Explore/Explore';
+import PlacedCandidates from '../PlacedCandidates/PlacedCandidates';
 
 const HomePage = ({ userType, isLoggedIn }) => {
   return (
@@ -23,9 +23,9 @@ const HomePage = ({ userType, isLoggedIn }) => {
         <Route path="/login" element={<LoginPage />} />
 
         {/* Protected Routes */}
-        <Route path="/student-details" element={isLoggedIn ? <StudentDetails /> : <MainSection />} />
-        <Route path="/placed-students" element={isLoggedIn ? <PlacedStudents /> : <MainSection />} />
-        <Route path="/companies" element={isLoggedIn ? <Companies /> : <MainSection />} />
+        <Route path="/top-companies" element={isLoggedIn ? <TopCompanies /> : <MainSection />} />
+        <Route path="/explore" element={isLoggedIn ? <Explore /> : <MainSection />} />
+        <Route path="/placed-candidates" element={isLoggedIn ? <PlacedCandidates /> : <MainSection />} />
       </Routes>
 
       {/* Footer */}

@@ -18,17 +18,17 @@ const Navbar = ({ userType, isLoggedIn }) => {
     if (!isLoggedIn) {
       return (
         <>
-          <button onClick={handleLoginAlert} className="hover:text-gray-200 text-xl md:text-1xl lg:text-2xl">Student Details</button>
-          <button onClick={handleLoginAlert} className="hover:text-gray-200 text-xl md:text-1xl lg:text-2xl">Placed Students</button>
-          <button onClick={handleLoginAlert} className="hover:text-gray-200 text-xl md:text-1xl lg:text-2xl">Companies</button>
+          <button onClick={handleLoginAlert} className="hover:text-gray-200 text-xl md:text-1xl lg:text-2xl">Top Companies</button>
+          <button onClick={handleLoginAlert} className="hover:text-gray-200 text-xl md:text-1xl lg:text-2xl">Explore</button>
+          <button onClick={handleLoginAlert} className="hover:text-gray-200 text-xl md:text-1xl lg:text-2xl">Placed Candidates</button>
         </>
       );
     } else {
       return (
         <>
-          <button onClick={() => navigate('/student-details')} className="hover:text-gray-200 text-xl md:text-1xl lg:text-2xl">Student Details</button>
-          <button onClick={() => navigate('/placed-students')} className="hover:text-gray-200 text-xl md:text-1xl lg:text-2xl">Placed Students</button>
-          <button onClick={() => navigate('/companies')} className="hover:text-gray-200 text-xl md:text-1xl lg:text-2xl">Companies</button>
+          <button onClick={() => navigate('/top-companies')} className="hover:text-gray-200 text-xl md:text-1xl lg:text-2xl">Top Companies</button>
+          <button onClick={() => navigate('/explore')} className="hover:text-gray-200 text-xl md:text-1xl lg:text-2xl">Explore</button>
+          <button onClick={() => navigate('/placed-candidates')} className="hover:text-gray-200 text-xl md:text-1xl lg:text-2xl">Placed Candidates</button>
         </>
       );
     }
@@ -42,7 +42,7 @@ const Navbar = ({ userType, isLoggedIn }) => {
           <button onClick={handleLoginClick} className="hover:text-gray-200 text-xl md:text-1xl lg:text-2xl">Sign in</button>
         ) : (
           <button className="hover:text-gray-200 text-xl md:text-1xl lg:text-2xl">
-            {userType === 'student' ? 'Student Profile' : 'Staff Profile'}
+            {userType === 'student' ? 'Your Profile' : 'Admin Profile'}
           </button>
         )}
       </div>
