@@ -40,7 +40,7 @@ const LoginPage = ({ setUserType, setIsLoggedIn }) => {
     <div className="min-h-screen flex items-center justify-end bg-cover bg-center" style={{ backgroundImage: 'url(/images/image7.png)' }}>
       <div className="p-19 w-full max-w-xl ml-auto mr-20 mb-10">
         <h1 className="text-6xl mb-6 text-white justify-end">Welcome</h1>
-        <p className="text-lg mb-8 text-white ml-20">Student/Staff Login</p>
+        <p className="text-lg mb-8 text-white ml-20">User/Admin Login</p>
 
         <div className="space-y-7">
           <div className="relative">
