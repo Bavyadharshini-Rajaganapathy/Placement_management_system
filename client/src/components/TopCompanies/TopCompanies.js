@@ -1,11 +1,11 @@
 import React from 'react';
 
-const StudentDetails = () => {
+const TopCompanies = () => {
   return (
     <div className="min-h-screen flex items-center justify-center">
-      <h1 className="text-3xl">Student Details Page</h1>
+      <h1 className="text-3xl">Top Companies</h1>
     </div>
   );
 };
 
-export default StudentDetails;
+export default TopCompanies;

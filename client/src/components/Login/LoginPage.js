@@ -73,8 +73,8 @@ const LoginPage = ({ setUserType, setIsLoggedIn }) => {
               className="w-full px-4 py-4 bg-transparent border border-white rounded-xl text-lg text-white"
             >
               <option value="" disabled hidden>Select Login Type</option>
-              <option value="student" className="text-black">Student</option>
-              <option value="staff" className="text-black">Staff</option>
+              <option value="student" className="text-black">User</option>
+              <option value="staff" className="text-black">Admin</option>
             </select>
           </div>
         </div>
