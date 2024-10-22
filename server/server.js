@@ -15,8 +15,8 @@ app.use(bodyParser.json());
 const db = mysql.createConnection({
   host: 'localhost',
   user: 'root',          // your MySQL username
-  password: 'Bavya_21', // your MySQL password
-  database: 'sample',     // your database name
+  password: 'Bavya_21',  // your MySQL password
+  database: 'sample',    // your database name
 });
 
 // Connect to the MySQL database
@@ -64,24 +64,6 @@ app.post('/api/login', (req, res) => {
     return res.status(200).json({ success: true, message: 'Login successful' });
   });
 });
-
-app.get('/api/company/:id', (req, res) => {
-  const companyId = req.params.id;
-
-  const query = 'SELECT * FROM companies WHERE id = ?';
-  db.query(query, [companyId], (err, results) => {
-    if (err) {
-      return res.status(500).json({ success: false, message: 'Internal server error' });
-    }
-
-    if (results.length === 0) {
-      return res.status(404).json({ success: false, message: 'Company not found' });
-    }
-
-    res.status(200).json({ success: true, company: results[0] });
-  });
-});
-
 
 // Start the server
 app.listen(PORT, () => {
