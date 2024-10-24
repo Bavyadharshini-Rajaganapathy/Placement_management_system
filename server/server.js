@@ -65,6 +65,64 @@ app.post('/api/login', (req, res) => {
   });
 });
 
+// Get all hiring companies with associated job roles
+app.get('/api/companies', (req, res) => {
+  const sql = `
+    SELECT cd.*, GROUP_CONCAT(jr.role SEPARATOR ', ') AS roles
+    FROM companydetails cd
+    LEFT JOIN job_roles jr ON cd.id = jr.company_id
+    WHERE cd.ishiring = 1
+    GROUP BY cd.id`;
+
+  db.query(sql, (err, results) => {
+    if (err) {
+      console.error('Error fetching companies:', err);
+      res.status(500).json({ error: 'Internal server error' });
+    } else {
+      res.json(results);
+    }
+  });
+});
+
+// Get hiring companies filtered by job role
+app.get('/api/companies/role/:role', (req, res) => {
+  const role = req.params.role;
+  const sql = `
+    SELECT cd.*, GROUP_CONCAT(jr.role SEPARATOR ', ') AS roles
+    FROM companydetails cd
+    LEFT JOIN job_roles jr ON cd.id = jr.company_id
+    WHERE cd.ishiring = 1 AND jr.role = ?
+    GROUP BY cd.id`;
+
+  db.query(sql, [role], (err, results) => {
+    if (err) {
+      console.error('Error fetching companies by role:', err);
+      res.status(500).json({ error: 'Internal server error' });
+    } else {
+      res.json(results);
+    }
+  });
+});
+
+// Get all top companies (where istop = 1)
+app.get('/api/companies/top', (req, res) => {
+  const sql = `
+    SELECT cd.*, GROUP_CONCAT(jr.role SEPARATOR ', ') AS roles
+    FROM companydetails cd
+    LEFT JOIN job_roles jr ON cd.id = jr.company_id
+    WHERE cd.istop = 1
+    GROUP BY cd.id`;
+
+  db.query(sql, (err, results) => {
+    if (err) {
+      console.error('Error fetching top companies:', err);
+      res.status(500).json({ error: 'Internal server error' });
+    } else {
+      res.json(results);
+    }
+  });
+});
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
