@@ -123,6 +123,51 @@ app.get('/api/companies/top', (req, res) => {
   });
 });
 
+app.post('/api/apply', (req, res) => {
+  const { usn, company_id, job_role, resume_link, cover_letter } = req.body;
+
+  const sql = `INSERT INTO applications (usn, company_id, job_role, resume_link, cover_letter)
+               VALUES (?, ?, ?, ?, ?)`;
+
+  db.query(sql, [usn, company_id, job_role, resume_link, cover_letter], (err, result) => {
+    if (err) {
+      console.error('Error inserting application:', err);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+
+    res.status(200).json({ message: 'Application submitted successfully' });
+  });
+});
+
+// Get user details by usn
+app.get('/api/user/:usn', (req, res) => {
+  const { usn } = req.params;
+  const sql = `SELECT * FROM studentdetails WHERE usn = ?`;
+
+  db.query(sql, [usn], (err, results) => {
+    if (err) {
+      console.error('Error fetching user details:', err);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+    res.json(results[0]);
+  });
+});
+
+// Update user details
+app.put('/api/user/:usn', (req, res) => {
+  const { usn } = req.params;
+  const { name, email, phone, address } = req.body; // Editable fields
+
+  const sql = `UPDATE studentdetails SET name = ?, email = ?, phone = ?, address = ? WHERE usn = ?`;
+  db.query(sql, [name, email, phone, address, usn], (err) => {
+    if (err) {
+      console.error('Error updating user details:', err);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+    res.json({ message: 'Details updated successfully' });
+  });
+});
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
