@@ -66,7 +66,7 @@ const ApplyForm = () => {
           value={coverLetter}
           onChange={(e) => setCoverLetter(e.target.value)}
           className="w-full p-3 mb-4 border rounded-lg"
-          placeholder="Enter cover letter here"
+          placeholder="Enter cover letter"
           rows="4"
           required
         />
