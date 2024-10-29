@@ -84,25 +84,6 @@ app.get('/api/companies', (req, res) => {
   });
 });
 
-// Get hiring companies filtered by job role
-app.get('/api/companies/role/:role', (req, res) => {
-  const role = req.params.role;
-  const sql = `
-    SELECT cd.*, GROUP_CONCAT(jr.role SEPARATOR ', ') AS roles
-    FROM companydetails cd
-    LEFT JOIN job_roles jr ON cd.id = jr.company_id
-    WHERE cd.ishiring = 1 AND jr.role = ?
-    GROUP BY cd.id`;
-
-  db.query(sql, [role], (err, results) => {
-    if (err) {
-      console.error('Error fetching companies by role:', err);
-      res.status(500).json({ error: 'Internal server error' });
-    } else {
-      res.json(results);
-    }
-  });
-});
 
 // Get all top companies (where istop = 1)
 app.get('/api/companies/top', (req, res) => {
@@ -187,6 +168,33 @@ app.post('/api/register', (req, res) => {
         res.status(200).json({ success: true, message: 'Registration successful' });
       });
     });
+  });
+});
+
+// Get all hiring companies with associated job roles and optional sorting
+app.get('/api/companies', (req, res) => {
+  const { role } = req.query;
+
+  let sql = `
+    SELECT cd.*, GROUP_CONCAT(jr.role SEPARATOR ', ') AS roles
+    FROM companydetails cd
+    LEFT JOIN jobroles jr ON cd.id = jr.company_id
+    WHERE cd.ishiring = 1`;
+
+  // If a role filter is specified, add a HAVING clause
+  if (role) {
+    sql += ` AND jr.role LIKE ?`;
+  }
+
+  sql += ` GROUP BY cd.id`;
+
+  db.query(sql, role ? [`%${role}%`] : [], (err, results) => {
+    if (err) {
+      console.error('Error fetching companies:', err);
+      res.status(500).json({ error: 'Internal server error' });
+    } else {
+      res.json(results);
+    }
   });
 });
 
