@@ -123,6 +123,74 @@ app.get('/api/companies/top', (req, res) => {
   });
 });
 
+app.post('/api/apply', (req, res) => {
+  const { usn, company_id, job_role, resume_link, cover_letter } = req.body;
+
+  const sql = `INSERT INTO applications (usn, company_id, job_role, resume_link, cover_letter)
+               VALUES (?, ?, ?, ?, ?)`;
+
+  db.query(sql, [usn, company_id, job_role, resume_link, cover_letter], (err, result) => {
+    if (err) {
+      console.error('Error inserting application:', err);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+
+    res.status(200).json({ message: 'Application submitted successfully' });
+  });
+});
+
+// Registration API endpoint
+app.post('/api/register', (req, res) => {
+  const { username: usn, fullName: name, email, password } = req.body;
+
+  // Check if all fields are provided
+  if (!usn || !name || !email || !password) {
+    console.log("Missing fields:", { usn, name, email, password });
+    return res.status(400).json({ success: false, message: 'All fields are required' });
+  }
+
+  // Check if the username (USN) already exists in the studentdetails table
+  const checkUserQuery = 'SELECT * FROM studentdetails WHERE usn = ?';
+  db.query(checkUserQuery, [usn], (err, results) => {
+    if (err) {
+      console.error('Database error while checking USN existence:', err);
+      return res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+
+    if (results.length > 0) {
+      // If the USN already exists
+      console.log("USN already exists:", usn);
+      return res.status(409).json({ success: false, message: 'Username (USN) already exists' });
+    }
+
+    // Insert into studentdetails table
+    const studentDetailsQuery = 'INSERT INTO studentdetails (usn, name, email) VALUES (?, ?, ?)';
+    db.query(studentDetailsQuery, [usn, name, email], (err, result) => {
+      if (err) {
+        console.error('Error inserting into studentdetails:', err);
+        return res.status(500).json({ success: false, message: 'Internal server error' });
+      }
+
+      console.log('Inserted into studentdetails:', result);
+
+      // Insert into slogin table for login credentials
+      const loginQuery = 'INSERT INTO slogin (usn, email, password) VALUES (?, ?, ?)';
+      db.query(loginQuery, [usn, email, password], (err, result) => {
+        if (err) {
+          console.error('Error inserting into slogin:', err);
+          return res.status(500).json({ success: false, message: 'Internal server error' });
+        }
+
+        console.log('Inserted into slogin:', result);
+
+        // Registration successful
+        res.status(200).json({ success: true, message: 'Registration successful' });
+      });
+    });
+  });
+});
+
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
