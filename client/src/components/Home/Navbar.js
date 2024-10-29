@@ -39,7 +39,7 @@ const Navbar = ({ userType, isLoggedIn }) => {
       <div className="flex items-center space-x-8 md:space-x-16 lg:space-x-28">
         {renderLinks()}
         {!isLoggedIn ? (
-          <button onClick={handleLoginClick} className="hover:text-gray-200 text-xl md:text-1xl lg:text-2xl">Sign in</button>
+          <button onClick={handleLoginClick} className="hover:text-gray-200 text-xl md:text-1xl lg:text-2xl">Register/Login</button>
         ) : (
           <button className="hover:text-gray-200 text-xl md:text-1xl lg:text-2xl">
             {userType === 'student' ? 'Your Profile' : 'Admin Profile'}
