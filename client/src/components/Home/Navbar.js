@@ -20,7 +20,7 @@ const Navbar = ({ userType, isLoggedIn }) => {
         <>
           <button onClick={handleLoginAlert} className="hover:text-gray-200 text-xl md:text-1xl lg:text-2xl">Top Companies</button>
           <button onClick={handleLoginAlert} className="hover:text-gray-200 text-xl md:text-1xl lg:text-2xl">Explore</button>
-          <button onClick={handleLoginAlert} className="hover:text-gray-200 text-xl md:text-1xl lg:text-2xl">Placed Candidates</button>
+          <button onClick={handleLoginAlert} className="hover:text-gray-200 text-xl md:text-1xl lg:text-2xl">Activities</button>
         </>
       );
     } else {
@@ -28,7 +28,7 @@ const Navbar = ({ userType, isLoggedIn }) => {
         <>
           <button onClick={() => navigate('/top-companies')} className="hover:text-gray-200 text-xl md:text-1xl lg:text-2xl">Top Companies</button>
           <button onClick={() => navigate('/explore')} className="hover:text-gray-200 text-xl md:text-1xl lg:text-2xl">Explore</button>
-          <button onClick={() => navigate('/placed-candidates')} className="hover:text-gray-200 text-xl md:text-1xl lg:text-2xl">Placed Candidates</button>
+          <button onClick={() => navigate('/activities')} className="hover:text-gray-200 text-xl md:text-1xl lg:text-2xl">Activities</button>
         </>
       );
     }

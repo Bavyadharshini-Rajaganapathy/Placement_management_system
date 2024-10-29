@@ -1,7 +1,7 @@
 // src/components/LoginPage.js
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios'; // Import axios for HTTP requests
+import { useNavigate, Link } from 'react-router-dom';
+import axios from 'axios';
 
 const LoginPage = ({ setUserType, setIsLoggedIn }) => {
   const [email, setEmail] = useState('');
@@ -12,18 +12,16 @@ const LoginPage = ({ setUserType, setIsLoggedIn }) => {
   const handleLogin = async () => {
     if (loginType === 'student' || loginType === 'staff') {
       try {
-        // API call to the backend to authenticate the user
         const response = await axios.post('http://localhost:5000/api/login', {
           email,
           password,
           loginType,
         });
 
-        // Handle successful login
         if (response.data.success) {
-          setUserType(loginType); // Update user type in the app state
-          setIsLoggedIn(true);    // Set the user as logged in
-          navigate('/');          // Navigate to home page
+          setUserType(loginType);
+          setIsLoggedIn(true);
+          navigate('/');
         } else {
           alert('Invalid credentials, please try again');
         }
@@ -40,9 +38,13 @@ const LoginPage = ({ setUserType, setIsLoggedIn }) => {
     <div className="min-h-screen flex items-center justify-end bg-cover bg-center" style={{ backgroundImage: 'url(/images/image7.png)' }}>
       <div className="p-19 w-full max-w-xl ml-auto mr-20 mb-10">
         <h1 className="text-6xl mb-6 text-white justify-end">Welcome</h1>
-        <p className="text-lg mb-8 text-white ml-20">User/Admin Login</p>
+        <div className="flex justify-center text-3xl mb-7 text-white ml-20 font-semibold">
+          <Link to="/register" className={`mr-4 ${window.location.pathname === '/register' ? 'underline' : ''}`}>Register</Link>/ 
+          <Link to="/login" className={`ml-4 ${window.location.pathname === '/login' ? 'underline' : ''}`}>Login</Link>
+        </div>
 
         <div className="space-y-7">
+          {/* Email Input */}
           <div className="relative">
             <label className="block text-white mb-2 text-xl font-semibold ml-8">Email</label>
             <input
@@ -54,6 +56,7 @@ const LoginPage = ({ setUserType, setIsLoggedIn }) => {
             />
           </div>
 
+          {/* Password Input */}
           <div className="relative">
             <label className="block text-white mb-2 text-xl font-semibold ml-8">Password</label>
             <input
@@ -65,6 +68,7 @@ const LoginPage = ({ setUserType, setIsLoggedIn }) => {
             />
           </div>
 
+          {/* Login Type Selector */}
           <div className="relative">
             <label className="block text-white mb-2 text-xl font-semibold ml-8">Login Type</label>
             <select
@@ -79,6 +83,7 @@ const LoginPage = ({ setUserType, setIsLoggedIn }) => {
           </div>
         </div>
 
+        {/* Sign In Button */}
         <div className="flex justify-center mt-12">
           <button
             onClick={handleLogin}

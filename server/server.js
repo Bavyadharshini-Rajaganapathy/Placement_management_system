@@ -139,34 +139,57 @@ app.post('/api/apply', (req, res) => {
   });
 });
 
-// Get user details by usn
-app.get('/api/user/:usn', (req, res) => {
-  const { usn } = req.params;
-  const sql = `SELECT * FROM studentdetails WHERE usn = ?`;
+// Registration API endpoint
+app.post('/api/register', (req, res) => {
+  const { username: usn, fullName: name, email, password } = req.body;
 
-  db.query(sql, [usn], (err, results) => {
+  // Check if all fields are provided
+  if (!usn || !name || !email || !password) {
+    console.log("Missing fields:", { usn, name, email, password });
+    return res.status(400).json({ success: false, message: 'All fields are required' });
+  }
+
+  // Check if the username (USN) already exists in the studentdetails table
+  const checkUserQuery = 'SELECT * FROM studentdetails WHERE usn = ?';
+  db.query(checkUserQuery, [usn], (err, results) => {
     if (err) {
-      console.error('Error fetching user details:', err);
-      return res.status(500).json({ error: 'Internal server error' });
+      console.error('Database error while checking USN existence:', err);
+      return res.status(500).json({ success: false, message: 'Internal server error' });
     }
-    res.json(results[0]);
+
+    if (results.length > 0) {
+      // If the USN already exists
+      console.log("USN already exists:", usn);
+      return res.status(409).json({ success: false, message: 'Username (USN) already exists' });
+    }
+
+    // Insert into studentdetails table
+    const studentDetailsQuery = 'INSERT INTO studentdetails (usn, name, email) VALUES (?, ?, ?)';
+    db.query(studentDetailsQuery, [usn, name, email], (err, result) => {
+      if (err) {
+        console.error('Error inserting into studentdetails:', err);
+        return res.status(500).json({ success: false, message: 'Internal server error' });
+      }
+
+      console.log('Inserted into studentdetails:', result);
+
+      // Insert into slogin table for login credentials
+      const loginQuery = 'INSERT INTO slogin (usn, email, password) VALUES (?, ?, ?)';
+      db.query(loginQuery, [usn, email, password], (err, result) => {
+        if (err) {
+          console.error('Error inserting into slogin:', err);
+          return res.status(500).json({ success: false, message: 'Internal server error' });
+        }
+
+        console.log('Inserted into slogin:', result);
+
+        // Registration successful
+        res.status(200).json({ success: true, message: 'Registration successful' });
+      });
+    });
   });
 });
 
-// Update user details
-app.put('/api/user/:usn', (req, res) => {
-  const { usn } = req.params;
-  const { name, email, phone, address } = req.body; // Editable fields
-
-  const sql = `UPDATE studentdetails SET name = ?, email = ?, phone = ?, address = ? WHERE usn = ?`;
-  db.query(sql, [name, email, phone, address, usn], (err) => {
-    if (err) {
-      console.error('Error updating user details:', err);
-      return res.status(500).json({ error: 'Internal server error' });
-    }
-    res.json({ message: 'Details updated successfully' });
-  });
-});
 
 // Start the server
 app.listen(PORT, () => {
