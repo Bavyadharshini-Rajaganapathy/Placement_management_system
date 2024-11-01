@@ -19,8 +19,8 @@ const TopCompanies = () => {
     fetchTopCompanies();
   }, []);
 
-  const handleApplyClick = (companyId) => {
-    navigate(`/apply/${companyId}`); // Navigate to the application form page
+  const handleViewDetailsClick = (companyId) => {
+    navigate(`/view-details/${companyId}`); // Navigate to the company details page
   };
 
   return (
@@ -35,7 +35,6 @@ const TopCompanies = () => {
             className="bg-white rounded-xl shadow-lg mb-8 p-8 min-h-[150px] flex justify-between items-center transition-transform duration-300 hover:scale-105 hover:shadow-xl"
           >
             <div>
-              {/* Clicking the company name now opens the company's website */}
               <h2
                 className="text-3xl font-bold mb-4 cursor-pointer text-black-500 hover:underline"
                 onClick={() => window.open(company.weblink, '_blank')}
@@ -45,10 +44,10 @@ const TopCompanies = () => {
               <p className="text-lg text-gray-600">{company.description}</p>
             </div>
             <button
-              onClick={() => handleApplyClick(company.id)}
+              onClick={() => handleViewDetailsClick(company.id)}
               className="bg-black text-white text-lg px-6 py-3 rounded-lg hover:bg-gray-800 transition"
             >
-              Apply
+              View Details
             </button>
           </div>
         ))}
