@@ -104,22 +104,6 @@ app.get('/api/companies/top', (req, res) => {
   });
 });
 
-app.post('/api/apply', (req, res) => {
-  const { usn, company_id, job_role, resume_link, cover_letter } = req.body;
-
-  const sql = `INSERT INTO applications (usn, company_id, job_role, resume_link, cover_letter)
-               VALUES (?, ?, ?, ?, ?)`;
-
-  db.query(sql, [usn, company_id, job_role, resume_link, cover_letter], (err, result) => {
-    if (err) {
-      console.error('Error inserting application:', err);
-      return res.status(500).json({ error: 'Internal server error' });
-    }
-
-    res.status(200).json({ message: 'Application submitted successfully' });
-  });
-});
-
 // Registration API endpoint
 app.post('/api/register', (req, res) => {
   const { username: usn, fullName: name, email, password } = req.body;
@@ -171,29 +155,25 @@ app.post('/api/register', (req, res) => {
   });
 });
 
-// Get all hiring companies with associated job roles and optional sorting
-app.get('/api/companies', (req, res) => {
-  const { role } = req.query;
+// Get details of a specific company by ID
+app.get('/api/companies/:companyId', (req, res) => {
+  const { companyId } = req.params;
 
-  let sql = `
+  const sql = `
     SELECT cd.*, GROUP_CONCAT(jr.role SEPARATOR ', ') AS roles
     FROM companydetails cd
-    LEFT JOIN jobroles jr ON cd.id = jr.company_id
-    WHERE cd.ishiring = 1`;
+    LEFT JOIN job_roles jr ON cd.id = jr.company_id
+    WHERE cd.id = ?
+    GROUP BY cd.id`;
 
-  // If a role filter is specified, add a HAVING clause
-  if (role) {
-    sql += ` AND jr.role LIKE ?`;
-  }
-
-  sql += ` GROUP BY cd.id`;
-
-  db.query(sql, role ? [`%${role}%`] : [], (err, results) => {
+  db.query(sql, [companyId], (err, results) => {
     if (err) {
-      console.error('Error fetching companies:', err);
+      console.error('Error fetching company details:', err);
       res.status(500).json({ error: 'Internal server error' });
+    } else if (results.length === 0) {
+      res.status(404).json({ error: 'Company not found' });
     } else {
-      res.json(results);
+      res.json(results[0]);
     }
   });
 });
