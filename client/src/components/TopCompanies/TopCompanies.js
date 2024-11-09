@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 const TopCompanies = () => {
   const [companies, setCompanies] = useState([]);
   const navigate = useNavigate();
+  const userType = localStorage.getItem('userType');
 
   useEffect(() => {
     const fetchTopCompanies = async () => {
@@ -20,7 +21,11 @@ const TopCompanies = () => {
   }, []);
 
   const handleViewDetailsClick = (companyId) => {
-    navigate(`/view-details/${companyId}`); // Navigate to the company details page
+    navigate(`/view-details/${companyId}`);
+  };
+
+  const handleEditClick = (companyId) => {
+    navigate(`/edit-company/${companyId}`);
   };
 
   return (
@@ -43,12 +48,22 @@ const TopCompanies = () => {
               </h2>
               <p className="text-lg text-gray-600">{company.description}</p>
             </div>
-            <button
-              onClick={() => handleViewDetailsClick(company.id)}
-              className="bg-black text-white text-lg px-6 py-3 rounded-lg hover:bg-gray-800 transition"
-            >
-              View Details
-            </button>
+            <div className="flex space-x-4">
+              <button
+                onClick={() => handleViewDetailsClick(company.id)}
+                className="bg-black text-white text-lg px-6 py-3 rounded-lg hover:bg-gray-800 transition"
+              >
+                View Details
+              </button>
+              {userType === 'staff' && (
+                <button
+                  onClick={() => handleEditClick(company.id)}
+                  className="bg-gray-800 text-white text-lg px-6 py-3 rounded-lg hover:bg-gray-600 transition"
+                >
+                  Edit
+                </button>
+              )}
+            </div>
           </div>
         ))}
       </div>

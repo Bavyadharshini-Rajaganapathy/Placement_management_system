@@ -3,3 +3,7 @@
 @tailwind utilities;
 @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Carrois+Gothic&family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bad+Script&family=Hina+Mincho&family=Meddon&family=Pinyon+Script&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=WindSong:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bad+Script&family=Cormorant:ital,wght@0,300..700;1,300..700&family=Hina+Mincho&family=Libre+Caslon+Display&family=Meddon&family=Pinyon+Script&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Satisfy&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&family=WindSong:wght@400;500&display=swap');
+@import "~slick-carousel/slick/slick.css";
+@import "~slick-carousel/slick/slick-theme.css";

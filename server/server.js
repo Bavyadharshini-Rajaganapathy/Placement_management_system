@@ -178,6 +178,98 @@ app.get('/api/companies/:companyId', (req, res) => {
   });
 });
 
+// Get details of a specific company by ID
+app.get('/api/companies/:companyId', (req, res) => {
+  const { companyId } = req.params;
+
+  const sql = `
+    SELECT cd.*, GROUP_CONCAT(jr.role SEPARATOR ', ') AS roles
+    FROM companydetails cd
+    LEFT JOIN job_roles jr ON cd.id = jr.company_id
+    WHERE cd.id = ?
+    GROUP BY cd.id`;
+
+  db.query(sql, [companyId], (err, results) => {
+    if (err) {
+      console.error('Error fetching company details:', err);
+      res.status(500).json({ error: 'Internal server error' });
+    } else if (results.length === 0) {
+      res.status(404).json({ error: 'Company not found' });
+    } else {
+      res.json(results[0]);
+    }
+  });
+});
+
+// Profile route to get user data based on email and userType
+app.get('/api/profile', (req, res) => {
+  const { email, userType } = req.query;
+
+  if (!email || !userType) {
+    return res.status(400).json({ success: false, message: "Email and userType are required" });
+  }
+
+  let query;
+  if (userType === 'student') {
+    query = 'SELECT usn, name, email FROM studentdetails WHERE email = ?';
+  } else if (userType === 'staff') {
+    query = 'SELECT usn, name, email FROM staffdetails WHERE email = ?';
+  } else {
+    return res.status(400).json({ success: false, message: "Invalid userType" });
+  }
+
+  db.query(query, [email], (err, results) => {
+    if (err) {
+      console.error('Error fetching profile data:', err);
+      return res.status(500).json({ success: false, message: "Database error" });
+    }
+
+    if (results.length === 0) {
+      return res.status(404).json({ success: false, message: "Profile not found" });
+    }
+
+    res.json({ success: true, profile: results[0] });
+  });
+});
+
+app.put('/api/profile/update', (req, res) => {
+  const { email, name, newEmail } = req.body;
+
+  if (!email || !name || !newEmail) {
+    return res.status(400).json({ success: false, message: "All fields are required" });
+  }
+
+  const query1 = 'UPDATE studentdetails SET name = ?, email = ? WHERE email = ?';
+  const query2 = 'UPDATE slogin SET email = ? WHERE email = ?';
+
+  // Update studentdetails table first
+  db.query(query1, [name, newEmail, email], (err, results1) => {
+    if (err) {
+      console.error('Error updating profile data in studentdetails:', err);
+      return res.status(500).json({ success: false, message: "Database error" });
+    }
+
+    if (results1.affectedRows === 0) {
+      return res.status(404).json({ success: false, message: "Profile not found in studentdetails" });
+    }
+
+    // If studentdetails update is successful, update slogin table
+    db.query(query2, [newEmail, email], (err, results2) => {
+      if (err) {
+        console.error('Error updating email in slogin:', err);
+        return res.status(500).json({ success: false, message: "Database error" });
+      }
+
+      if (results2.affectedRows === 0) {
+        return res.status(404).json({ success: false, message: "Profile not found in slogin" });
+      }
+
+      // Both updates successful
+      res.json({ success: true, profile: { name, email: newEmail } });
+    });
+  });
+});
+
 
 // Start the server
 app.listen(PORT, () => {

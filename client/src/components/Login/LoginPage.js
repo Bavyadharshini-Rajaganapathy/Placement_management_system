@@ -21,6 +21,8 @@ const LoginPage = ({ setUserType, setIsLoggedIn }) => {
         if (response.data.success) {
           setUserType(loginType);
           setIsLoggedIn(true);
+          localStorage.setItem('userEmail', email);
+          localStorage.setItem('userType', loginType);
           navigate('/');
         } else {
           alert('Invalid credentials, please try again');
