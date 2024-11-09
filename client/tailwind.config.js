@@ -8,6 +8,7 @@ module.exports = {
     extend: {
       colors: {
         'dark-gray': '#333',
+        'black-50': 'rgba(0, 0, 0, 0.7)',
       },
       fontSize: {
         'base': '16px',
@@ -20,6 +21,8 @@ module.exports = {
         'gowun': ['"Gowun Batang"', 'serif'], 
         'libre-caslon': ['"Libre Caslon Text"', 'serif'],
         'noto-serif': ['"Noto Serif"', 'serif'],
+        'windsong': ['"WindSong"', 'cursive'],
+        'cormorant': ['"Cormorant"', 'serif'],
       },
       backgroundImage: {
         'login-bg': "url('/images/your-image.jpg')", // Set your path here

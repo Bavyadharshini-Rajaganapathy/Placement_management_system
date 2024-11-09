@@ -5,8 +5,9 @@ import LoginPage from './components/Login/LoginPage';
 import RegisterPage from './components/Register/RegisterPage';
 import Explore from './components/Explore/Explore';
 import TopCompanies from './components/TopCompanies/TopCompanies';
-import ViewDetails from './components/ViewDetails/ViewDetails';  // Import the ViewDetails component
-
+import ViewDetails from './components/ViewDetails/ViewDetails';  
+import AboutUs from './components/AboutUs/AboutUs';
+import ProfilePage from './Profile/Profile';
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userType, setUserType] = useState('');
@@ -19,7 +20,9 @@ const App = () => {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/explore" element={<Explore />} />
         <Route path="/top-companies" element={<TopCompanies />} />
-        <Route path="/view-details/:companyId" element={<ViewDetails />} />  {/* Add the ViewDetails route */}
+        <Route path="/view-details/:companyId" element={<ViewDetails />} />
+        <Route path="/about-us" element={<AboutUs />} />
+        <Route path="/profile" element={<ProfilePage userType={userType}/>} />
       </Routes>
     </Router>
   );
