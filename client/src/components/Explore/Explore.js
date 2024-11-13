@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 const Explore = () => {
   const [companies, setCompanies] = useState([]);
   const navigate = useNavigate();
+  const userType = localStorage.getItem('userType');
 
   useEffect(() => {
     const fetchCompanies = async () => {
@@ -20,7 +21,25 @@ const Explore = () => {
   }, []);
 
   const handleViewDetailsClick = (companyId) => {
-    navigate(`/view-details/${companyId}`); // Navigate to the company details page
+    navigate(`/view-details/${companyId}`);
+  };
+
+  const handleEditClick = (companyId) => {
+    navigate(`/edit-company/${companyId}`);
+  };
+
+  const handleDeleteClick = async (companyId) => {
+    const confirmed = window.confirm('Are you sure you want to delete this company?');
+    if (confirmed) {
+      try {
+        await axios.delete(`http://localhost:5000/api/companies/${companyId}`);
+        alert('Company deleted successfully');
+        setCompanies(companies.filter((company) => company.id !== companyId));
+      } catch (error) {
+        console.error('Error deleting company:', error);
+        alert('Failed to delete company');
+      }
+    }
   };
 
   return (
@@ -44,12 +63,30 @@ const Explore = () => {
               </h2>
               <p className="text-lg text-gray-600">{company.description}</p>
             </div>
-            <button
-              onClick={() => handleViewDetailsClick(company.id)}
-              className="bg-black text-white text-lg px-6 py-3 rounded-lg hover:bg-gray-800 transition"
-            >
-              View Details
-            </button>
+            <div className="flex space-x-4">
+              <button
+                onClick={() => handleViewDetailsClick(company.id)}
+                className="bg-black text-white text-lg px-6 py-3 rounded-lg hover:bg-gray-800 transition"
+              >
+                View Details
+              </button>
+              {userType === 'staff' && (
+                <>
+                  <button
+                    onClick={() => handleEditClick(company.id)}
+                    className="bg-gray-800 text-white text-lg px-6 py-3 rounded-lg hover:bg-gray-600 transition"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDeleteClick(company.id)}
+                    className="bg-red-600 text-white text-lg px-6 py-3 rounded-lg hover:bg-red-800 transition"
+                  >
+                    Delete
+                  </button>
+                </>
+              )}
+            </div>
           </div>
         ))}
       </div>

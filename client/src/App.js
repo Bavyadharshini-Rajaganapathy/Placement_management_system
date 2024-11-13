@@ -8,6 +8,8 @@ import TopCompanies from './components/TopCompanies/TopCompanies';
 import ViewDetails from './components/ViewDetails/ViewDetails';  
 import AboutUs from './components/AboutUs/AboutUs';
 import ProfilePage from './Profile/Profile';
+import EditCompany from './components/EditCompany/EditCompany'
+
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userType, setUserType] = useState('');
@@ -23,6 +25,7 @@ const App = () => {
         <Route path="/view-details/:companyId" element={<ViewDetails />} />
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/profile" element={<ProfilePage userType={userType}/>} />
+        <Route path="/edit-company/:companyId" element={<EditCompany />} />
       </Routes>
     </Router>
   );

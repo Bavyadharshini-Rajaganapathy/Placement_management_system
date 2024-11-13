@@ -28,6 +28,20 @@ const TopCompanies = () => {
     navigate(`/edit-company/${companyId}`);
   };
 
+  const handleDeleteClick = async (companyId) => {
+    const confirmed = window.confirm('Are you sure you want to delete this company?');
+    if (confirmed) {
+      try {
+        await axios.delete(`http://localhost:5000/api/companies/${companyId}`);
+        alert('Company deleted successfully');
+        setCompanies(companies.filter((company) => company.id !== companyId));
+      } catch (error) {
+        console.error('Error deleting company:', error);
+        alert('Failed to delete company');
+      }
+    }
+  };
+
   return (
     <div className="min-h-[800px] flex justify-center items-center bg-gray-100 px-5">
       <div className="max-w-6xl w-full">
@@ -56,12 +70,20 @@ const TopCompanies = () => {
                 View Details
               </button>
               {userType === 'staff' && (
-                <button
-                  onClick={() => handleEditClick(company.id)}
-                  className="bg-gray-800 text-white text-lg px-6 py-3 rounded-lg hover:bg-gray-600 transition"
-                >
-                  Edit
-                </button>
+                <>
+                  <button
+                    onClick={() => handleEditClick(company.id)}
+                    className="bg-gray-800 text-white text-lg px-6 py-3 rounded-lg hover:bg-gray-600 transition"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDeleteClick(company.id)}
+                    className="bg-red-600 text-white text-lg px-6 py-3 rounded-lg hover:bg-red-800 transition"
+                  >
+                    Delete
+                  </button>
+                </>
               )}
             </div>
           </div>
