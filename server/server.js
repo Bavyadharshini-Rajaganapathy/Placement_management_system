@@ -270,6 +270,61 @@ app.put('/api/profile/update', (req, res) => {
   });
 });
 
+// Update company details with async/await and promise wrapper
+app.put('/api/companies/update/:companyId', async (req, res) => {
+  const { companyId } = req.params;
+  const {
+    name, description, istop, ishiring, weblink, Location, headquarters,
+    job_locations, education, skills, cgpa, salary_range, benefits, 
+    application_process, study_pattern, drive_link, contact_email, 
+    contact_phone, linkedin_url, twitter_url
+  } = req.body;
+
+  const query = `
+    UPDATE companydetails SET
+      name = ?, description = ?, istop = ?, ishiring = ?, weblink = ?,
+      headquarters = ?, job_locations = ?, education = ?, skills = ?, cgpa = ?, 
+      salary_range = ?, benefits = ?, application_process = ?, study_pattern = ?, 
+      drive_link = ?, contact_email = ?, contact_phone = ?, linkedin_url = ?, 
+      twitter_url = ?
+    WHERE id = ?`;
+
+  const values = [
+    name, description, istop, ishiring, weblink, headquarters,
+    job_locations, education, skills, cgpa, salary_range, benefits, 
+    application_process, study_pattern, drive_link, contact_email, 
+    contact_phone, linkedin_url, twitter_url, companyId
+  ];
+
+  try {
+    // Use promise() wrapper here
+    await db.promise().query(query, values);
+    res.status(200).send('Company details updated successfully');
+  } catch (error) {
+    console.error('Error updating company:', error);
+    res.status(500).send('Error updating company');
+  }
+});
+
+// Delete a specific company by ID
+app.delete('/api/companies/:companyId', (req, res) => {
+  const { companyId } = req.params;
+  
+  const sql = 'DELETE FROM companydetails WHERE id = ?';
+
+  db.query(sql, [companyId], (err, result) => {
+    if (err) {
+      console.error('Error deleting company:', err);
+      return res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+    
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ success: false, message: 'Company not found' });
+    }
+    
+    res.status(200).json({ success: true, message: 'Company deleted successfully' });
+  });
+});
 
 // Start the server
 app.listen(PORT, () => {
