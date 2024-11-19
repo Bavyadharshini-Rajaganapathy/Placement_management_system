@@ -6,7 +6,7 @@ import { Routes, Route } from 'react-router-dom';
 import LoginPage from '../Login/LoginPage';
 import TopCompanies from '../TopCompanies/TopCompanies';
 import Explore from '../Explore/Explore';
-import PlacedCandidates from '../PlacedCandidates/PlacedCandidates';
+
 
 const HomePage = ({ userType, isLoggedIn }) => {
   return (
@@ -25,7 +25,6 @@ const HomePage = ({ userType, isLoggedIn }) => {
         {/* Protected Routes */}
         <Route path="/top-companies" element={isLoggedIn ? <TopCompanies /> : <MainSection />} />
         <Route path="/explore" element={isLoggedIn ? <Explore /> : <MainSection />} />
-        <Route path="/placed-candidates" element={isLoggedIn ? <PlacedCandidates /> : <MainSection />} />
       </Routes>
 
       {/* Footer */}

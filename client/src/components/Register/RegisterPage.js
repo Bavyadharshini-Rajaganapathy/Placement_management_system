@@ -7,7 +7,7 @@ const RegisterPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
-  const [errorMessage, setErrorMessage] = useState(''); // Error message state
+  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
   const handleRegister = async () => {

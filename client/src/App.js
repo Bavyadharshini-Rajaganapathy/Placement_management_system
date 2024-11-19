@@ -7,8 +7,9 @@ import Explore from './components/Explore/Explore';
 import TopCompanies from './components/TopCompanies/TopCompanies';
 import ViewDetails from './components/ViewDetails/ViewDetails';  
 import AboutUs from './components/AboutUs/AboutUs';
-import ProfilePage from './Profile/Profile';
-import EditCompany from './components/EditCompany/EditCompany'
+import ProfilePage from './components/Profile/Profile';
+import EditCompany from './components/EditCompany/EditCompany';
+import AddCompanies from './components/AddCompany/AddCompanies'; 
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -26,6 +27,7 @@ const App = () => {
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/profile" element={<ProfilePage userType={userType}/>} />
         <Route path="/edit-company/:companyId" element={<EditCompany />} />
+        <Route path="/add-company" element={<AddCompanies />} /> {/* Add route for AddCompanies */}
       </Routes>
     </Router>
   );
