@@ -42,12 +42,42 @@ const TopCompanies = () => {
     }
   };
 
+  const handleAddCompanyClick = () => {
+    navigate('/add-company'); // Navigate to the AddCompany page
+  };
+
   return (
     <div className="min-h-[800px] flex justify-center items-center bg-gray-100 px-5">
       <div className="max-w-6xl w-full">
-        <h1 className="text-5xl font-bold mb-10 mt-6 text-center text-gray-800">
+        {/* Home Icon */}
+        <div className="relative w-full h-[60px] mt-4 mb-6 ms-96">
+          <span
+            className="material-icons absolute top-0 right-0 text-gray-800 text-4xl cursor-pointer hover:text-gray-600"
+            onClick={() => navigate(-1)}
+          >
+            home
+          </span>
+        </div>
+
+        {/* Title */}
+        <h1 className="text-5xl font-bold mb-6 mt-6 text-center text-gray-800">
           Top Companies
         </h1>
+
+        {/* Add Icon for staff below the heading */}
+        <div className=''>
+        {userType === 'staff' && (
+          <div className="flex mb-6 me-96 left-0">
+            <span
+              className="material-icons text-gray-800 text-5xl cursor-pointer hover:text-green-800 left-0"
+              onClick={handleAddCompanyClick}
+            >
+              add
+            </span>
+          </div>
+        )}
+        </div>
+        {/* List of Companies */}
         {companies.map((company) => (
           <div
             key={company.id}

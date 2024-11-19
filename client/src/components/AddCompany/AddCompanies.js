@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-const EditCompany = () => {
+const AddCompanies = () => {
   const [companyData, setCompanyData] = useState({
     name: '',
     description: '',
@@ -25,25 +25,7 @@ const EditCompany = () => {
     twitter_url: '',
   });
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const { companyId } = useParams();
   const navigate = useNavigate();
-
-  // Fetch company data
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`http://localhost:5000/api/companies/${companyId}`);
-        setCompanyData(response.data);
-        setLoading(false);
-      } catch (error) {
-        setError('Error fetching company details');
-        console.error(error);
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, [companyId]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -62,13 +44,14 @@ const EditCompany = () => {
   };
 
   const handleSave = async () => {
+    console.log('Form data:', companyData); // Debug the data being sent
     try {
-      await axios.put(`http://localhost:5000/api/companies/update/${companyId}`, companyData);
-      alert('Company details updated successfully');
+      const response = await axios.post('http://localhost:5000/api/companies/add', companyData);
+      alert(response.data.message || 'Company added successfully');
       navigate('/top-companies');
     } catch (error) {
-      setError('Error updating company');
-      console.error(error);
+      setError(error.response?.data?.error || 'Error adding company');
+      console.error('Error response:', error.response || error);
     }
   };
 
@@ -76,13 +59,9 @@ const EditCompany = () => {
     navigate(-1);
   };
 
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
   return (
     <div className="bg-gray-800 text-white min-h-screen flex items-center justify-center">
-      {/* Back Arrow */}
+        {/* Back Arrow */}
       <span
         className="material-icons text-white-800 text-4xl absolute top-4 left-4 cursor-pointer hover:text-gray-600"
         onClick={() => navigate(-1)} // Navigate to the previous page
@@ -90,10 +69,9 @@ const EditCompany = () => {
         arrow_back_ios
       </span>
       <div className="bg-gray-900 p-8 rounded-lg shadow-lg max-w-4xl w-full">
-        <h2 className="text-2xl font-bold mb-6 text-center">Edit Company</h2>
+        <h2 className="text-2xl font-bold mb-6 text-center">Add New Company</h2>
         {error && <p className="text-red-500 text-center mb-4">{error}</p>}
         <div className="grid grid-cols-2 gap-6">
-          {/* Left column of inputs */}
           <div>
             <label className="block mb-2">Name:</label>
             <input
@@ -169,7 +147,6 @@ const EditCompany = () => {
               className="w-full bg-gray-700 p-2 rounded"
             />
           </div>
-          {/* Right column of inputs */}
           <div>
             <label className="block mb-2">Benefits:</label>
             <textarea
@@ -268,4 +245,4 @@ const EditCompany = () => {
   );
 };
 
-export default EditCompany;
+export default AddCompanies;

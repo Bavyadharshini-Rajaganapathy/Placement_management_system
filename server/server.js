@@ -326,6 +326,40 @@ app.delete('/api/companies/:companyId', (req, res) => {
   });
 });
 
+app.post('/api/companies/add', (req, res) => {
+  const {
+    name, description, istop, ishiring, weblink,
+    headquarters, job_locations, education, skills,
+    cgpa, salary_range, benefits, application_process,
+    study_pattern, drive_link, contact_email, contact_phone,
+    linkedin_url, twitter_url,
+  } = req.body;
+
+  const sql = `INSERT INTO companydetails 
+    (name, description, istop, ishiring, weblink, headquarters, 
+     job_locations, education, skills, cgpa, salary_range, benefits, 
+     application_process, study_pattern, drive_link, contact_email, 
+     contact_phone, linkedin_url, twitter_url) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+
+  const values = [
+    name, description, istop ? 1 : 0, ishiring ? 1 : 0, weblink, headquarters,
+    job_locations, education, skills, cgpa, salary_range, benefits,
+    application_process, study_pattern, drive_link, contact_email,
+    contact_phone, linkedin_url, twitter_url,
+  ];
+
+  db.query(sql, values, (err, result) => {
+    if (err) {
+      console.error('Error adding company:', err);
+      res.status(500).json({ error: 'Failed to add company' });
+    } else {
+      res.status(201).json({ message: 'Company added successfully', id: result.insertId });
+    }
+  });
+});
+
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

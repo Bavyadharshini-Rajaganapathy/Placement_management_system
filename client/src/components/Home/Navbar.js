@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Profile from '../../Profile/Profile';
+import Profile from '../Profile/Profile';
 
 const Navbar = ({ userType, isLoggedIn, userId }) => {
   const navigate = useNavigate();
@@ -26,7 +26,6 @@ const Navbar = ({ userType, isLoggedIn, userId }) => {
         <>
           <button onClick={handleLoginAlert} className="hover:text-gray-200 text-xl md:text-1xl lg:text-2xl">Top Companies</button>
           <button onClick={handleLoginAlert} className="hover:text-gray-200 text-xl md:text-1xl lg:text-2xl">Explore</button>
-          <button onClick={handleLoginAlert} className="hover:text-gray-200 text-xl md:text-1xl lg:text-2xl">Activities</button>
           <button onClick={() => navigate('/about-us')} className="hover:text-gray-200 text-xl md:text-1xl lg:text-2xl">About Us</button>
         </>
       );
@@ -35,7 +34,6 @@ const Navbar = ({ userType, isLoggedIn, userId }) => {
         <>
           <button onClick={() => navigate('/top-companies')} className="hover:text-gray-200 text-xl md:text-1xl lg:text-2xl">Top Companies</button>
           <button onClick={() => navigate('/explore')} className="hover:text-gray-200 text-xl md:text-1xl lg:text-2xl">Explore</button>
-          <button onClick={() => navigate('/activities')} className="hover:text-gray-200 text-xl md:text-1xl lg:text-2xl">Activities</button>
           <button onClick={() => navigate('/about-us')} className="hover:text-gray-200 text-xl md:text-1xl lg:text-2xl">About Us</button>
         </>
       );
