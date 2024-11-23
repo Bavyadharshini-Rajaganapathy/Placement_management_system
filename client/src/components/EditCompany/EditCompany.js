@@ -76,7 +76,7 @@ const EditCompany = () => {
     navigate(-1);
   };
 
-  if (loading) {
+  if (loading) { 
     return <p>Loading...</p>;
   }
 

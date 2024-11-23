@@ -43,13 +43,12 @@ const TopCompanies = () => {
   };
 
   const handleAddCompanyClick = () => {
-    navigate('/add-company'); // Navigate to the AddCompany page
+    navigate('/add-company');
   };
 
   return (
     <div className="min-h-[800px] flex justify-center items-center bg-gray-100 px-5">
       <div className="max-w-6xl w-full">
-        {/* Home Icon */}
         <div className="relative w-full h-[60px] mt-4 mb-6 ms-96">
           <span
             className="material-icons absolute top-0 right-0 text-gray-800 text-4xl cursor-pointer hover:text-gray-600"
