@@ -58,12 +58,12 @@ const TopCompanies = () => {
           </span>
         </div>
 
-        {/* Title */}
+
         <h1 className="text-5xl font-bold mb-6 mt-6 text-center text-gray-800">
           Top Companies
         </h1>
 
-        {/* Add Icon for staff below the heading */}
+
         <div className=''>
         {userType === 'staff' && (
           <div className="flex mb-6 me-96 left-0">
